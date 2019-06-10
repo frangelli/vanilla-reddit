@@ -1,10 +1,10 @@
 class ArticlesController < ApplicationController
   before_action :set_article, only: [:show, :update, :destroy, :vote]
-
+  
   def index
     @articles = Article.all
 
-    render json: @articles
+    render json: @articles,methods: :posted_at,  include: { user: { only: :username }}
   end
 
   def show
@@ -29,9 +29,17 @@ class ArticlesController < ApplicationController
     end
   end
 
-  def vote
+  def vote_up
     @article.increment(:votes, 1)
     @article.save
+    render json: @article
+  end
+
+  def vote_down
+    if @article.votes > 0
+      @article.decrement(:votes, 1)
+      @article.save
+    end
     render json: @article
   end
 

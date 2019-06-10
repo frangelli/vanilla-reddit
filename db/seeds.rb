@@ -1,6 +1,6 @@
 # Create Users
-leo = User.create(name: "Leonardo Frangelli", email: "leonardo.frangelli@gmail.com")
-zen = User.create(name: "ZenHub Team", email: "team@zenhub.com")
+leo = User.create(username: "frangelli")
+zen = User.create(username: "zenhub")
 
 # Create some articles for leo
 leo.articles.create({title: "Leo's first article", content: Faker::Lorem.paragraph})

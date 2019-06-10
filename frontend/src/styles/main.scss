@@ -1,0 +1,12 @@
+@import "variables";
+
+@import url("https://fonts.googleapis.com/css?family=PT+Sans:400,700|Roboto:400,700");
+
+html,
+body {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  background: $light-gray;
+  font-family: "PT Sans", sans-serif;
+}

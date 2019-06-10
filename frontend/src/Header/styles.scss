@@ -1,0 +1,44 @@
+@import "../styles/variables";
+
+#app-header {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  z-index: 100;
+  align-items: center;
+  justify-content: space-between;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  height: 70px;
+  background: $white;
+  padding: 0px 15px;
+  box-shadow: 0px 3px 10px -5px rgba(51, 51, 51, 1);
+
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    padding: 0px;
+    font-family: Roboto, sans-serif;
+    font-weight: 700;
+    background-color: $orange;
+    color: $white;
+    border-radius: 50%;
+    h1 {
+      padding: 0px;
+      margin: 0px;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: $dark-gray;
+      color: $orange;
+    }
+  }
+
+  .user-info {
+  }
+}
