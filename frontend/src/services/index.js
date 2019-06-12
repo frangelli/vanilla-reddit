@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = "";
 
 export const fetchArticles = () => {
   return axios.get(`${API_BASE_URL}/articles`);
