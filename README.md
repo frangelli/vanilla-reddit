@@ -34,3 +34,9 @@ From the root directory run:
 - `rails db:migrate`
 - `rails db:seed` to create the fake data...
 - `rails s` to boot the rails server and your app will be running at `localhost:3000`
+
+## To build a new version of the frontend
+
+From within the `frontend` directory run:
+
+`npm run build`
