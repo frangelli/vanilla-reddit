@@ -7,14 +7,15 @@ export default class Header {
       <div class="user-info">
         <button id="login-header-button">LOG IN</button>
         <span class="username"></span>
+        <button id="create-article-button"><i class="fa fa-plus"></i> NEW ARTICLE</button>
         <button id="logout-header-button">LOG OUT</button>
-
       </div>`;
 
   constructor() {
     this.$container = document.querySelector("#app-header");
     this.$loginButton = null;
     this.$logoutButton = null;
+    this.$createArticleButton = null;
     this.$username = null;
     this.user = null;
     this.setupUI();
@@ -25,6 +26,9 @@ export default class Header {
     this.$container.innerHTML = this.elementTemplate;
     this.$loginButton = this.$container.querySelector("#login-header-button");
     this.$logoutButton = this.$container.querySelector("#logout-header-button");
+    this.$createArticleButton = this.$container.querySelector(
+      "#create-article-button"
+    );
     this.$username = this.$container.querySelector(".username");
     this.user = localStorage.getItem("za-user")
       ? JSON.parse(localStorage.getItem("za-user"))
@@ -40,6 +44,10 @@ export default class Header {
   setupEvents = () => {
     this.$loginButton.addEventListener("click", this.onLoginButtonClicked);
     this.$logoutButton.addEventListener("click", this.onLogoutButtonClicked);
+    this.$createArticleButton.addEventListener(
+      "click",
+      this.onCreateArticleButtonClicked
+    );
     document.addEventListener("user-logged-in", this.onUserLoggedIn);
   };
 
@@ -48,11 +56,13 @@ export default class Header {
     this.$username.textContent = this.user.username;
     this.$logoutButton.classList.remove("hidden");
     this.$username.classList.remove("hidden");
+    this.$createArticleButton.classList.remove("hidden");
   };
 
   updateUIForLoggedOutUser = () => {
     this.$loginButton.classList.remove("hidden");
     this.$username.textContent = "";
+    this.$createArticleButton.classList.add("hidden");
     this.$logoutButton.classList.add("hidden");
     this.$username.classList.add("hidden");
   };
@@ -62,6 +72,15 @@ export default class Header {
     e.preventDefault();
     document.dispatchEvent(
       new Event("show-login-form", {
+        bubbles: true
+      })
+    );
+  };
+
+  onCreateArticleButtonClicked = e => {
+    e.preventDefault();
+    document.dispatchEvent(
+      new Event("show-new-article-form", {
         bubbles: true
       })
     );

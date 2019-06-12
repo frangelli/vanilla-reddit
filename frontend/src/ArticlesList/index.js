@@ -92,6 +92,7 @@ export default class ArticlesList {
     });
 
     document.addEventListener("add-comment", this.onCommentAdded);
+    document.addEventListener("add-article", this.setupData);
   };
 
   // render functions

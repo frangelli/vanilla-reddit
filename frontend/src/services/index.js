@@ -29,6 +29,14 @@ export const postComment = (articleId, commentText, userId) => {
   });
 };
 
+export const postArticle = (title, content, userId) => {
+  return axios.post(`${API_BASE_URL}/articles`, {
+    title,
+    content,
+    user_id: userId
+  });
+};
+
 export const loginOrCreate = username => {
   return axios.post(`${API_BASE_URL}/users`, {
     username
@@ -42,5 +50,6 @@ export default {
   voteUp,
   voteDown,
   postComment,
-  loginOrCreate
+  loginOrCreate,
+  postArticle
 };

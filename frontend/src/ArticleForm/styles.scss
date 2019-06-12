@@ -1,0 +1,47 @@
+@import "../styles/mixins";
+@import "../styles/variables";
+
+#article-modal {
+  position: absolute;
+  background: $white;
+  width: 90%;
+  height: 400px;
+  left: 50%;
+  top: calc(50% - 200px);
+  transform: translate(-50%);
+  box-shadow: 1px 8px 13px 4px rgba(51, 51, 51, 0.63);
+  border-radius: 8px;
+  padding: 10px;
+
+  #article-form {
+    display: grid;
+    grid-template-rows: 40px auto 50px;
+    grid-gap: 10px;
+
+    input,
+    textarea {
+      border-radius: 8px;
+      background: $light-gray;
+    }
+
+    input {
+      height: 30px;
+    }
+
+    textarea {
+      height: 200px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: 50% 50%;
+      #btn-send-article {
+        @include btn-primary;
+      }
+
+      #btn-cancel-article {
+        @include btn-secondary;
+      }
+    }
+  }
+}

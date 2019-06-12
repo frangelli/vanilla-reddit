@@ -49,6 +49,10 @@
       @include btn-secondary;
     }
 
+    #create-article-button {
+      @include btn-primary;
+    }
+
     span {
       color: $blue;
     }
