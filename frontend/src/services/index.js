@@ -7,19 +7,19 @@ export const fetchArticles = () => {
 };
 
 export const fetchArticleComments = articleId => {
-  return axios.get(`$${API_BASE_URL}/${articleId}/comments`);
+  return axios.get(`${API_BASE_URL}/articles/${articleId}/comments`);
 };
 
 export const signUpOrSignInUser = username => {
-  return axios.post(`$${API_BASE_URL}/users`, { username });
+  return axios.post(`${API_BASE_URL}/users`, { username });
 };
 
 export const voteUp = articleId => {
-  return axios.post(`$${API_BASE_URL}/articles/${articleId}/vote_up`);
+  return axios.post(`${API_BASE_URL}/articles/${articleId}/vote_up`);
 };
 
 export const voteDown = articleId => {
-  return axios.post(`$${API_BASE_URL}/articles/${articleId}/vote_down`);
+  return axios.post(`${API_BASE_URL}/articles/${articleId}/vote_down`);
 };
 
 export default {

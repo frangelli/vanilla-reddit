@@ -1,10 +1,8 @@
 class ArticlesController < ApplicationController
-  before_action :set_article, only: [:show, :update, :destroy, :vote]
+  before_action :set_article, only: [:show, :update, :destroy, :vote_up, :vote_down]
   
   def index
-    @articles = Article.all
-
-    render json: @articles,methods: :posted_at,  include: { user: { only: :username }}
+   fetch_all_ordered_and_render
   end
 
   def show
@@ -32,7 +30,7 @@ class ArticlesController < ApplicationController
   def vote_up
     @article.increment(:votes, 1)
     @article.save
-    render json: @article
+    fetch_all_ordered_and_render
   end
 
   def vote_down
@@ -40,7 +38,7 @@ class ArticlesController < ApplicationController
       @article.decrement(:votes, 1)
       @article.save
     end
-    render json: @article
+    fetch_all_ordered_and_render
   end
 
   def destroy
@@ -54,5 +52,10 @@ class ArticlesController < ApplicationController
 
     def article_params
       params.permit(:title, :content, :votes, :user_id)
+    end
+
+    def fetch_all_ordered_and_render
+      @articles = Article.all.order('votes DESC, id ASC')
+      render json: @articles,methods: [:posted_at, :comments_count],  include: { user: { only: :username }}
     end
 end

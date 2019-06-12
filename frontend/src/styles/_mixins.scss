@@ -1,0 +1,24 @@
+@import "./variables";
+
+@mixin btn {
+  padding: 10px;
+}
+@mixin btn-primary {
+  @include btn;
+  background: $blue;
+  color: $white;
+  text-transform: uppercase;
+  font-weight: 700;
+  border: 1px solid $white;
+  border-radius: 8px;
+}
+
+@mixin btn-secondary {
+  @include btn;
+  background: $white;
+  color: $blue;
+  text-transform: uppercase;
+  font-weight: 700;
+  border: 1px solid $blue;
+  border-radius: 8px;
+}

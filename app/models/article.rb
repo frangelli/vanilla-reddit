@@ -9,4 +9,8 @@ class Article < ApplicationRecord
   def posted_at
     distance_of_time_in_words(Time.now, created_at)
   end
+
+  def comments_count
+    comments.size
+  end
 end

@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
 
   def index
     @comments = @article.comments
-    render json: @comments, include: { user: { only: [:id, :name, :email]}}
+    render json: @comments, include: { user: { only: [:id, :username]}}
   end
 
   def show

@@ -1,0 +1,14 @@
+@import "../styles/variables";
+@import "../styles/mixins";
+
+.comment-form {
+  display: grid;
+  grid-template-columns: auto 50px;
+  grid-gap: 10px;
+  height: 70px;
+  padding: 10px;
+
+  button {
+    @include btn-primary;
+  }
+}

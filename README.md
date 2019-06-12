@@ -1,4 +1,4 @@
-# ZenHub test case ( Reddit style App )
+# Zen Articles
 
 ## A running demo can be found [HERE]()
 
