@@ -44,5 +44,13 @@
     #login-header-button {
       @include btn-primary;
     }
+
+    #logout-header-button {
+      @include btn-secondary;
+    }
+
+    span {
+      color: $blue;
+    }
   }
 }

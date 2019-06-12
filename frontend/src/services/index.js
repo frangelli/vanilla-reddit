@@ -29,11 +29,18 @@ export const postComment = (articleId, commentText, userId) => {
   });
 };
 
+export const loginOrCreate = username => {
+  return axios.post(`${API_BASE_URL}/users`, {
+    username
+  });
+};
+
 export default {
   fetchArticles,
   fetchArticleComments,
   signUpOrSignInUser,
   voteUp,
   voteDown,
-  postComment
+  postComment,
+  loginOrCreate
 };

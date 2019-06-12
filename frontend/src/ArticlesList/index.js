@@ -1,5 +1,10 @@
 import { template } from "lodash";
-import { clearDOMElement, hasCssClass, generateAvatarByUsername } from "utils";
+import {
+  clearDOMElement,
+  hasCssClass,
+  generateAvatarByUsername,
+  isLoggedIn
+} from "utils";
 import {
   fetchArticles,
   fetchArticleComments,
@@ -170,6 +175,10 @@ export default class ArticlesList {
   };
 
   onVoteUpClick = articleId => {
+    if (!isLoggedIn()) {
+      window.alert("You must be logged in to perform this action!");
+      return;
+    }
     voteUp(articleId)
       .then(response => {
         this.articles = response.data;
@@ -181,6 +190,10 @@ export default class ArticlesList {
   };
 
   onVoteDownClick = articleId => {
+    if (!isLoggedIn()) {
+      window.alert("You must be logged in to perform this action!");
+      return;
+    }
     voteDown(articleId)
       .then(response => {
         this.articles = response.data;

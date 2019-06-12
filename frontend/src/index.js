@@ -14,13 +14,10 @@ class ZenArticles {
 
   constructor() {
     this.container = document.body;
-    this.initUI();
+    this.setupUI();
   }
 
-  initUI = () => {
-    console.log("-----------------------");
-    console.log("INIT UI MAIN APP");
-    console.log("-----------------------");
+  setupUI = () => {
     this.container.innerHTML = this.elementTemplate;
     // Header
     new Header();

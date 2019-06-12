@@ -1,5 +1,5 @@
 import { template } from "lodash";
-import { clearDOMElement } from "utils";
+import { clearDOMElement, isLoggedIn, getCurrentUser } from "utils";
 import { postComment } from "services";
 
 require("./styles.scss");
@@ -31,10 +31,30 @@ export default class CommentForm {
     this.$container.appendChild(formFragment);
     this.$contentField = formEl.querySelector("textarea");
     this.$sendButton = formEl.querySelector("button");
+    if (!isLoggedIn()) {
+      this.updateUIForLoggedoutUser();
+    }
   };
 
   setupEvents = () => {
     this.$sendButton.addEventListener("click", this.onSendButtonClick);
+    document.addEventListener("user-logged-in", this.onUserLoggedIn);
+    document.addEventListener("user-logged-out", this.onUserLoggedOut);
+  };
+
+  updateUIForLoggedinUser = () => {
+    this.$contentField.removeAttribute("disabled");
+    this.$sendButton.removeAttribute("disabled");
+    this.$contentField.setAttribute("placeholder", "write comment...");
+  };
+
+  updateUIForLoggedoutUser = () => {
+    this.$contentField.setAttribute("disabled", "true");
+    this.$sendButton.setAttribute("disabled", "true");
+    this.$contentField.setAttribute(
+      "placeholder",
+      "You must be logged in to comment!"
+    );
   };
 
   // all event handlers goes here
@@ -44,7 +64,12 @@ export default class CommentForm {
     if (!content) {
       window.alert("You should type something to comment!");
     }
-    postComment(this.articleId, content, 1)
+    const user = getCurrentUser();
+    if (!user) {
+      window.alert("You are not logged in anymore... Please refresh the page");
+      return;
+    }
+    postComment(this.articleId, content, user.id)
       .then(response => {
         document.dispatchEvent(
           new CustomEvent("add-comment", {
@@ -57,5 +82,13 @@ export default class CommentForm {
       .catch(err => {
         window.alert(err);
       });
+  };
+
+  onUserLoggedIn = () => {
+    this.updateUIForLoggedinUser();
+  };
+
+  onUserLoggedOut = () => {
+    this.updateUIForLoggedoutUser();
   };
 }

@@ -1,6 +1,5 @@
 import { template } from "lodash";
-import { clearDOMElement } from "utils";
-import { postComment } from "services";
+import { loginOrCreate } from "services";
 
 require("./styles.scss");
 export default class LoginForm {
@@ -53,6 +52,22 @@ export default class LoginForm {
     if (!username) {
       window.alert("You should type a username to login!");
     }
+    loginOrCreate(username)
+      .then(response => {
+        this.$el.classList.add("hidden");
+        localStorage.setItem("za-user", JSON.stringify(response.data));
+        document.dispatchEvent(
+          new CustomEvent("user-logged-in", {
+            bubbles: true,
+            detail: {
+              user: response.data
+            }
+          })
+        );
+      })
+      .catch(err => {
+        window.alert(err);
+      });
   };
 
   onCancelButtonClick = e => {
@@ -63,5 +78,6 @@ export default class LoginForm {
   onShowLoginClicked = e => {
     e.preventDefault();
     this.$el.classList.remove("hidden");
+    this.$usernameField.focus();
   };
 }

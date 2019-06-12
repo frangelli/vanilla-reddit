@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.find_by(username: params[:username])
+    @user = User.find_by(username: params[:username].html_safe)
     if @user.present?
       render json: @user, status: :ok
     else
@@ -43,6 +43,6 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:username)
+      params.permit(:username)
     end
 end

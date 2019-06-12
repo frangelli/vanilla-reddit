@@ -6,11 +6,17 @@ export default class Header {
       </div>
       <div class="user-info">
         <button id="login-header-button">LOG IN</button>
+        <span class="username"></span>
+        <button id="logout-header-button">LOG OUT</button>
+
       </div>`;
 
   constructor() {
     this.$container = document.querySelector("#app-header");
     this.$loginButton = null;
+    this.$logoutButton = null;
+    this.$username = null;
+    this.user = null;
     this.setupUI();
     this.setupEvents();
   }
@@ -18,10 +24,37 @@ export default class Header {
   setupUI = () => {
     this.$container.innerHTML = this.elementTemplate;
     this.$loginButton = this.$container.querySelector("#login-header-button");
+    this.$logoutButton = this.$container.querySelector("#logout-header-button");
+    this.$username = this.$container.querySelector(".username");
+    this.user = localStorage.getItem("za-user")
+      ? JSON.parse(localStorage.getItem("za-user"))
+      : null;
+
+    if (this.user) {
+      this.updateUIForLoggedInUser();
+    } else {
+      this.updateUIForLoggedOutUser();
+    }
   };
 
   setupEvents = () => {
     this.$loginButton.addEventListener("click", this.onLoginButtonClicked);
+    this.$logoutButton.addEventListener("click", this.onLogoutButtonClicked);
+    document.addEventListener("user-logged-in", this.onUserLoggedIn);
+  };
+
+  updateUIForLoggedInUser = () => {
+    this.$loginButton.classList.add("hidden");
+    this.$username.textContent = this.user.username;
+    this.$logoutButton.classList.remove("hidden");
+    this.$username.classList.remove("hidden");
+  };
+
+  updateUIForLoggedOutUser = () => {
+    this.$loginButton.classList.remove("hidden");
+    this.$username.textContent = "";
+    this.$logoutButton.classList.add("hidden");
+    this.$username.classList.add("hidden");
   };
 
   // all event handlers goes here
@@ -32,5 +65,28 @@ export default class Header {
         bubbles: true
       })
     );
+  };
+
+  onLogoutButtonClicked = e => {
+    e.preventDefault();
+    localStorage.removeItem("za-user");
+    this.updateUIForLoggedOutUser();
+    document.dispatchEvent(
+      new Event("user-logged-out", {
+        bubbles: true
+      })
+    );
+  };
+
+  onUserLoggedIn = e => {
+    e.preventDefault();
+
+    this.user = localStorage.getItem("za-user")
+      ? JSON.parse(localStorage.getItem("za-user"))
+      : null;
+
+    if (this.user) {
+      this.updateUIForLoggedInUser();
+    }
   };
 }
