@@ -22,10 +22,18 @@ export const voteDown = articleId => {
   return axios.post(`${API_BASE_URL}/articles/${articleId}/vote_down`);
 };
 
+export const postComment = (articleId, commentText, userId) => {
+  return axios.post(`${API_BASE_URL}/articles/${articleId}/comments`, {
+    content: commentText,
+    user_id: userId
+  });
+};
+
 export default {
   fetchArticles,
   fetchArticleComments,
   signUpOrSignInUser,
   voteUp,
-  voteDown
+  voteDown,
+  postComment
 };

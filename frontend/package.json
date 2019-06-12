@@ -1,7 +1,7 @@
 {
   "name": "zen-frontend",
   "version": "1.0.0",
-  "description": "ZenHub code challenge application",
+  "description": "Zen Articles ( Reddit style app )",
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/.bin/webpack-dev-server --config ./webpack.config.js",

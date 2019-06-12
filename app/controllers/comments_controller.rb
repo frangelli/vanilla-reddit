@@ -15,7 +15,7 @@ class CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
 
     if @comment.save
-      render json: @comment, status: :created
+      render json: @comment, include: { user: { only: [:id, :username]}}, status: :created
     else
       render json: @comment.errors, status: :unprocessable_entity
     end

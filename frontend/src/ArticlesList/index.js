@@ -5,11 +5,12 @@ import {
   fetchArticleComments,
   voteUp,
   voteDown
-} from "../services";
+} from "services";
 import CommentForm from "../CommentForm";
 
 require("./styles.scss");
 export default class ArticlesList {
+  // lodash templates
   elementTemplate = `
     <div id="articles-list">
     </div>
@@ -41,22 +42,22 @@ export default class ArticlesList {
     </div>
   `;
 
-  articles = [];
-
   constructor() {
     this.$container = document.querySelector("#content");
     this.$el = null;
-    this.initUI();
-    this.initData();
+    this.articles = [];
+    this.setupUI();
+    this.setupData();
     this.setupEvents();
   }
 
-  initUI = () => {
+  // setup functions
+  setupUI = () => {
     this.$container.innerHTML = this.elementTemplate;
     this.$el = this.$container.querySelector("#articles-list");
   };
 
-  initData = () => {
+  setupData = () => {
     fetchArticles()
       .then(response => {
         this.articles = response.data;
@@ -84,8 +85,11 @@ export default class ArticlesList {
         this.onVoteDownClick(articleId);
       }
     });
+
+    document.addEventListener("add-comment", this.onCommentAdded);
   };
 
+  // render functions
   renderArticlesList = () => {
     const listFragment = document.createDocumentFragment();
 
@@ -120,23 +124,28 @@ export default class ArticlesList {
     const listFragment = document.createDocumentFragment();
 
     comments.forEach(comment => {
-      const commentEl = document.createElement("comment");
-      commentEl.classList.add("comment");
-      commentEl.dataset.commentId = comment.id;
-
-      const commentFn = template(this.commentTemplate);
-      commentEl.innerHTML = commentFn({
-        id: comment.id,
-        postedBy: comment.user.username,
-        content: comment.content,
-        avatar: generateAvatarByUsername(comment.user.username)
-      });
+      const commentEl = this.createCommentEl(comment);
 
       listFragment.appendChild(commentEl);
     });
     clearDOMElement(el);
     el.appendChild(listFragment);
     new CommentForm(el, el.dataset.articleId);
+  };
+
+  createCommentEl = comment => {
+    const commentEl = document.createElement("comment");
+    commentEl.classList.add("comment");
+    commentEl.dataset.commentId = comment.id;
+
+    const commentFn = template(this.commentTemplate);
+    commentEl.innerHTML = commentFn({
+      id: comment.id,
+      postedBy: comment.user.username,
+      content: comment.content,
+      avatar: generateAvatarByUsername(comment.user.username)
+    });
+    return commentEl;
   };
 
   // here goes all event handlers
@@ -180,5 +189,27 @@ export default class ArticlesList {
       .catch(err => {
         window.alert(err);
       });
+  };
+
+  onCommentAdded = e => {
+    const { comment } = e.detail;
+    if (comment) {
+      const commentFormEl = this.$el.querySelector(
+        `#comment-form-article-${comment.article_id}`
+      );
+      const commentEl = this.createCommentEl(comment);
+      const articleEl = this.$el.querySelector(
+        `[data-article-id="${comment.article_id}"].article`
+      );
+      const articleCommentsEl = this.$el.querySelector(
+        `[data-article-id="${comment.article_id}"].comments`
+      );
+      const totalComments = articleCommentsEl.querySelectorAll(".comment")
+        .length;
+      articleCommentsEl.insertBefore(commentEl, commentFormEl);
+      articleEl.querySelector(
+        ".comments-counter"
+      ).textContent = `${totalComments + 1} comments`;
+    }
   };
 }
