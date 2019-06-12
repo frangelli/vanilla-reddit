@@ -1,5 +1,6 @@
 import Header from "./Header";
 import ArticlesList from "./ArticlesList";
+import LoginForm from "./LoginForm";
 
 require("./styles/main.scss");
 class ZenArticles {
@@ -25,6 +26,8 @@ class ZenArticles {
     new Header();
     // Articles List
     new ArticlesList();
+    // Login Modal
+    new LoginForm();
   };
 }
 
